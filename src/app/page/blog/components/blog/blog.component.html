@@ -1,0 +1,17 @@
+<div class="blog-wrapper">
+  <div class="blog-container">
+    <div class="blog-title">Welcome to My Blog</div>
+    <div class="blog-search">
+      <app-blog-search></app-blog-search>
+    </div>
+    <div class="blog-action">
+      <button>Add post</button>
+    </div>
+    <div class="blog-categories">
+      <app-blog-categories [blogCategories]="blogCategories"></app-blog-categories>
+    </div>
+    <div class="blog-list-items">
+      <app-blog-list-item *ngFor="let item of blogItems" [blogItem]="item"></app-blog-list-item>
+    </div>
+  </div>
+</div>
