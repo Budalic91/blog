@@ -1,31 +1,34 @@
 import { CommonModule } from "@angular/common";
 import { NgModule } from "@angular/core";
-import { ReactiveFormsModule } from "@angular/forms";
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { BlogRoutingModule } from "./blog-routing.module";
 import {
   BlogCategoriesComponent,
   BlogComponent,
   BlogListItemComponent,
-  BlogSearchComponent,
+  BlogContentMessageComponent,
 } from "./components";
-import { HttpClientModule } from '@angular/common/http';
-import { BlogService } from "src/app/core/services/blog.service";
+import { SharedModule } from "src/app/shared/shared.module";
+import {MatIconModule} from '@angular/material/icon';
+import { CategoryService } from "src/app/core/services/category.service";
 
 @NgModule({
   declarations: [
     BlogComponent,
     BlogCategoriesComponent,
     BlogListItemComponent,
-    BlogSearchComponent
+    BlogContentMessageComponent
   ],
   imports: [
     BlogRoutingModule,
     CommonModule,
     ReactiveFormsModule,
-    HttpClientModule,
+    FormsModule,
+    MatIconModule,
+    SharedModule,
   ],
   providers: [
-    BlogService,
+    CategoryService,
   ],
 })
 export class BlogModule {}

@@ -1,17 +1,23 @@
-<div class="blog-wrapper">
-  <div class="blog-container">
-    <div class="blog-title">Welcome to My Blog</div>
-    <div class="blog-search">
-      <app-blog-search></app-blog-search>
+<div class="blog">
+  <div class="blog__container">
+    <div class="blog__title">Welcome to My Blog</div>
+    <div class="blog__content-message">
+      <app-blog-content-message></app-blog-content-message>
     </div>
-    <div class="blog-action">
-      <button>Add post</button>
+    <div class="blog__action">
+      <button class="blog__add-button" (click)="openModal(false)">Add post</button>
     </div>
-    <div class="blog-categories">
+    <div class="blog__categories">
       <app-blog-categories [blogCategories]="blogCategories"></app-blog-categories>
     </div>
-    <div class="blog-list-items">
-      <app-blog-list-item *ngFor="let item of blogItems" [blogItem]="item"></app-blog-list-item>
+    <div class="blog__list-items">
+      <app-blog-list-item
+      *ngFor="let item of filteredBlogItems"
+      [blogItem]="item"
+      (editBlogItemEmmiter)="editBlogItem($event)"
+      (deleteBlogItemEmmiter)="deleteBlogItem($event)"
+      >
+      </app-blog-list-item>
     </div>
   </div>
 </div>

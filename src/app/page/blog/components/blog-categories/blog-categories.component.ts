@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { BlogCategory } from 'src/app/core/models';
+import { BlogCategoryItem } from 'src/app/core/models';
 
 
 @Component({
@@ -8,19 +8,17 @@ import { BlogCategory } from 'src/app/core/models';
   styleUrls: ['./blog-categories.component.scss']
 })
 export class BlogCategoriesComponent {
-  @Input() public set blogCategories(value: BlogCategory[]) {
+  @Input() public set blogCategories(value: BlogCategoryItem[]) {
     this._blogCategories = value
   }
 
-  public get blogCategories(): BlogCategory[] {
+  public get blogCategories(): BlogCategoryItem[] {
     return this._blogCategories
   }
 
 
-  private _blogCategories: BlogCategory[]
+  private _blogCategories: BlogCategoryItem[]
 
-  constructor() {
-    // this._blogCategories = []
-  }
+  constructor() {}
 
 }

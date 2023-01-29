@@ -1,0 +1,39 @@
+<div class="dialog-header">
+  <span class="dialog-header__title">{{headerTitle}}</span>
+  <span class="dialog-header__btn-wrapper">
+    <mat-icon fontIcon="minimize"></mat-icon>
+    <mat-icon fontIcon="fullscreen"></mat-icon>
+    <mat-icon (click)="close()" fontIcon="close"></mat-icon>
+  </span>
+</div>
+<div class="dialog-content">
+  <form [formGroup]="dialogForm">
+    <div class="dialog-content__form-field-wrapper">
+      <span class="dialog-content__label">Title:</span>
+      <div class="dialog-content__field-wrapper">
+        <input formControlName="title"/>
+      </div>
+      <span>*</span>
+    </div>
+    <div class="dialog-content__form-field-wrapper">
+      <span class="dialog-content__label">Text:</span>
+      <div class="dialog-content__field-wrapper">
+        <textarea formControlName="text"></textarea>
+      </div>
+      <span>*</span>
+    </div>
+    <div class="dialog-content__form-field-wrapper">
+      <span class="dialog-content__label">Category:</span>
+      <div class="dialog-content__field-wrapper">
+        <select formControlName="category">
+          <option *ngFor="let item of categories" [value]="item.id">{{item.name}}</option>
+        </select>
+      </div>
+      <span>*</span>
+    </div>
+  </form>
+</div>
+<div class="dialog-action">
+  <button style="margin-right: 10px;" [disabled]="!dialogForm.valid" (click)="post(dialogForm)">Post</button>
+  <button style="margin-left: 10px;" (click)="close()">Cancel</button>
+</div>

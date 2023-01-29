@@ -1,11 +1,17 @@
 export interface BlogItem {
-  id: number
+  id?: number
   title: string
   text: string
-  categoryId: number
+  categoryId?: number
+  createdAt?: string
+  updatedAt?: string
 }
 
-export interface BlogCategory {
-  id: number
-  name: string
+export interface ResponseObj {
+  errorMessage: string | null
+  success: boolean
+}
+
+export interface ResponseObjBlogPost extends ResponseObj{
+  resultData: BlogItem[]
 }

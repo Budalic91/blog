@@ -1,6 +1,6 @@
-.blog-wrapper{
+.blog {
   height: calc(100vh - 56px);
-  .blog-container{
+  &__container{
     display: flex;
     flex-flow: row wrap;
     height: 100%;
@@ -8,47 +8,64 @@
     color: black;
     background: rgba(0, 0, 0, 0.9);
     padding: 20px;
-    .blog-action, .blog-title, .blog-search, .blog-categories, .blog-list-items {
-      flex-grow: 1;
-      flex-basis: 100%;
-    }
-    .blog-title {
-      color: black;
-      font-weight: bold;
-    }
-    .blog-search {
-      // background-color: lightgray;
-    }
-    .blog-categories {
-      border: 1px solid lightgray;
-      background-color: white;
-    }
+  }
+  &__action, &__title, &__content-message, &__categories, &__list-items {
+    flex-grow: 1;
+    flex-basis: 100%;
+    margin-bottom: 20px;
+  }
+  &__content-message {
+    height: 7vh;
+  }
+  &__title {
+    color: black;
+    font-weight: bold;
+    height: 3vh;
+  }
+  &__action {
+    display: flex;
+    justify-content: end;
+  }
+  &__add-button {
+    width: 150px;
+    background-color: black;
+    color: white;
+    max-height: 35px;
+  }
+  
+  &__categories {
+    border: 1px solid lightgray;
+    background-color: white;
+    height: 15vh;
+    overflow: hidden;
+    overflow-y: auto;
+  }
 
-    .blog-list-items {
-      height: 40vh;
+  &__list-items {
+    height: 45vh;
+    overflow: hidden;
+    overflow-y: auto;
+  }
+}
+@media all and (min-width: 600px) {
+  .blog{
+    &__content-message {
+      width: 84.7%;
+      margin-left: 15.3%;
+    }
+    &__list-items{
+      flex: 6 0px;
+      height: 64vh;
       overflow: hidden;
       overflow-y: scroll;
     }
-
-    @media all and (min-width: 600px) {
-      .blog-search {
-        width: 84.7%;
-        margin-left: 15.3%;
-      }
-      .blog-list-items{
-        flex: 6 0px;
-        height: 64vh;
-        overflow: hidden;
-        overflow-y: scroll;
-      }
-      .blog-categories {
-        flex: 1 0px;
-        margin-right: 20px;
-        height: 64vh;
-      }
-      .blog-title {
-        margin-left: 15.3%;
-      }
+    &__categories {
+      flex: 1 0px;
+      margin-right: 20px;
+      height: 64vh;
+    }
+    &__title {
+      margin-left: 15.3%;
     }
   }
 }

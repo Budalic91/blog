@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { BlogService } from 'src/app/core/services/blog.service';
 
 
 @Component({
@@ -7,5 +8,13 @@ import { Component, Input, OnInit } from '@angular/core';
   styleUrls: ['./nav-bar.component.scss']
 })
 export class NavBarComponent {
+  searchText: string
+  constructor(private _blogService: BlogService) {
+    this.searchText = ''
+  }
 
+  public changeSearchInput(value: any): void {
+    console.log(value)
+    this._blogService.searchInputChanged$.next(this.searchText)
+  }
 }
