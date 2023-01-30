@@ -1,11 +1,12 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
 import { BlogItem } from 'src/app/core/models';
 
 
 @Component({
   selector: 'app-blog-list-item',
   templateUrl: './blog-list-item.component.html',
-  styleUrls: ['./blog-list-item.component.scss']
+  styleUrls: ['./blog-list-item.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BlogListItemComponent {
   @Input()
