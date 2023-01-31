@@ -1,18 +1,18 @@
 .blog {
-  height: calc(100vh - 56px);
+  height: calc(100vh - 3.5rem);
   &__container{
     display: flex;
     flex-flow: row wrap;
     height: 100%;
-    margin-top: 56px;
+    margin-top: 3.5rem;
     color: black;
     background: rgba(0, 0, 0, 0.9);
-    padding: 20px;
+    padding: 1.25rem;
   }
   &__action, &__title, &__content-message, &__categories, &__list-items {
     flex-grow: 1;
     flex-basis: 100%;
-    margin-bottom: 20px;
+    margin-bottom: 1.25rem;
   }
   &__content-message {
     height: 7vh;
@@ -27,14 +27,14 @@
     justify-content: end;
   }
   &__add-button {
-    width: 150px;
+    width: 9.375rem;
     background-color: black;
     color: white;
-    max-height: 35px;
+    max-height: 2.1875rem;
   }
-  
+
   &__categories {
-    border: 1px solid lightgray;
+    border: 0.0625rem solid lightgray;
     background-color: white;
     height: 15vh;
     overflow: hidden;
@@ -61,7 +61,7 @@
     }
     &__categories {
       flex: 1 0px;
-      margin-right: 20px;
+      margin-right: 1.25rem;
       height: 64vh;
     }
     &__title {

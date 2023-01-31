@@ -1,65 +1,72 @@
 .blog-item {
-  margin-bottom: 20px;
+  margin-bottom: 1.25rem;
   border: 1px solid black;
   background-color: white;
   &__header {
     display: flex;
-    height: 100px;
-    padding: 10px;
+    height: 6.25rem;
+    padding: 0.625rem;
   }
 
   &__profile-img-wrapper {
-    height: 80px;
-    width: 80px;
+    height: 5rem;
+    width: 5rem;
     display: flex;
     border: 1px solid black;
-    border-radius: 2px;
+    border-radius: 0.125rem;
     img {
       margin: auto
     }
   }
   &__title-wrapper {
     flex-grow: 1;
-    padding-left: 10px;
+    padding-left: 0.625rem;
+  }
+  &__title {
     font-weight: bold;
-    font-size: 24px;
+    font-size: 1.5rem;
+  }
+  &__subtitle {
+    font-size: 0.625rem;
   }
   &__action-wrapper {
     display: flex;
     align-items: start;
     justify-content: space-between;
-    > :first-child {
-      margin-right: 10px;
-    }
     button {
       background-color: black;
       color: white;
-      width: 80px;
+      width: 5rem;
     }
+  }
+  &__action-wrapper > :first-child {
+    margin-right: 0.625rem;
   }
   &__content {
     width: 100%;
-    padding: 10px;
-    font-size: 12px;
+    padding: 0.625rem;
+    font-size: 0.75rem;
   }
 
   &__img-content {
     display: flex;
     justify-content: center;
-    margin-bottom: 10px;
-    > :first-child {
-      margin-left: 0px !important
-    }
+    margin-bottom: 0.625rem;
+
     span {
-      height: 100px;
-      width: 100px;
+      height: 6.25rem;
+      width: 6.25rem;
       display: flex;
       border: 1px solid black;
-      border-radius: 2px;
-      margin-left: 10px;
+      border-radius: 0.125rem;
+      margin-left: 0.625rem;
       img {
         margin:auto
       }
     }
+  }
+
+  &__img-content > :first-child {
+    margin-left: 0px !important
   }
 }

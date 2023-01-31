@@ -9,9 +9,20 @@ import { BlogItem } from 'src/app/core/models';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BlogListItemComponent {
+  public updatedDate: string
+  public updatedTime: string
   @Input()
   public set blogItem(value: BlogItem) {
     this._blogItem = value
+    if (value?.updatedAt) {
+      const date = new Date(value?.updatedAt)
+      this.updatedDate = date.toLocaleDateString()
+      this.updatedTime = date.toLocaleTimeString()
+    }
+  }
+
+  public get blogItem(): BlogItem {
+    return this._blogItem
   }
 
   @Output()
@@ -19,11 +30,6 @@ export class BlogListItemComponent {
 
   @Output()
   private readonly deleteBlogItemEmmiter: EventEmitter<BlogItem>
-
-  public get blogItem(): BlogItem {
-    return this._blogItem
-  }
-
 
   private _blogItem: BlogItem
 

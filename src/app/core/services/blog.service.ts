@@ -1,6 +1,6 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { Observable, Subject } from "rxjs";
+import { map, Observable, Subject } from "rxjs";
 import { BlogItem, ResponseObj, ResponseObjBlogPost } from "../models";
 
 @Injectable({
@@ -19,12 +19,15 @@ export class BlogService {
     this._searchInputChanged$ = new Subject<string>
   }
 
-  public getBlogPosts(): Observable<ResponseObjBlogPost> {
-    return this._httpClient.get(this._baseUrl) as Observable<ResponseObjBlogPost>
+  public getBlogPosts(): Observable<BlogItem[]> {
+    return this._httpClient.get<ResponseObjBlogPost>(this._baseUrl)
+    .pipe(
+      map((data) => data.resultData)
+    )
   }
 
-  public createBlog(blog: BlogItem) {
-    return this._httpClient.post(this._baseUrl, blog)
+  public createBlog(blog: BlogItem): Observable<BlogItem> {
+    return this._httpClient.post(this._baseUrl, blog) as Observable<BlogItem>
   }
 
   public updateBlog(blog: BlogItem) {

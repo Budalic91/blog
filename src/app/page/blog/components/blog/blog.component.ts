@@ -1,10 +1,10 @@
-import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, OnDestroy , ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { BlogCategoryItem, BlogItem } from 'src/app/core/models';
 import { BlogService } from 'src/app/core/services/blog.service';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog'
 import { AddEditDialogComponent } from 'src/app/shared/components/add-edit-dialog/add-edit-dialog.component';
 import { CategoryService } from 'src/app/core/services/category.service';
-import { combineLatest, forkJoin, map } from 'rxjs'
+import { combineLatest, Subject, first, takeUntil } from 'rxjs'
 
 
 @Component({
@@ -13,7 +13,7 @@ import { combineLatest, forkJoin, map } from 'rxjs'
   styleUrls: ['./blog.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class BlogComponent implements OnInit{
+export class BlogComponent implements OnInit, OnDestroy{
   public get filteredBlogItems(): BlogItem[] {
     return this._filteredBlogItems
   }
@@ -30,6 +30,7 @@ export class BlogComponent implements OnInit{
   private _filteredBlogItems: BlogItem[]
   private _blogCategories: BlogCategoryItem[]
   private _testBlogCategories: BlogCategoryItem[]
+  private _destroyed$: Subject<void>
 
   constructor(
     private _blogService: BlogService,
@@ -37,26 +38,32 @@ export class BlogComponent implements OnInit{
     private _dialog: MatDialog,
     private _cd: ChangeDetectorRef,
     ) {
-    this._blogService.searchInputChanged$.subscribe((searchText: string) => {
-      this._filteredBlogItems = this._blogItems.filter(item => item.title.toLowerCase().indexOf(searchText.toLowerCase()) !== -1)
-      console.log(this._filteredBlogItems)
-      this._cd.detectChanges()
-    }
-    )
-    this._testBlogCategories = [
-      {
-        // id: 1,
-        name: 'Category 1'
-      },
-      {
-        // id: 2,
-        name: 'Category 2'
-      },
-      {
-        // id: 3,
-        name: 'Category 3'
-      }
-    ]
+      this._destroyed$ = new Subject()
+
+      this._blogService.searchInputChanged$
+      .pipe(
+        takeUntil(this._destroyed$)
+      )
+      .subscribe((searchText: string) => {
+        this._filteredBlogItems = this._blogItems.filter(item => item.title.toLowerCase().indexOf(searchText.toLowerCase()) !== -1)
+        console.log(this._filteredBlogItems)
+        this._cd.detectChanges()
+      })
+
+      this._testBlogCategories = [
+        {
+          // id: 1,
+          name: 'Category 1'
+        },
+        {
+          // id: 2,
+          name: 'Category 2'
+        },
+        {
+          // id: 3,
+          name: 'Category 3'
+        }
+      ]
   }
 
   ngOnInit(): void {
@@ -64,41 +71,51 @@ export class BlogComponent implements OnInit{
     this.getCategories()
   }
 
-  public getBlogPosts() {
-    this._blogService.getBlogPosts().subscribe((data: any )=> {
-      this._blogItems = data?.resultData
+  ngOnDestroy(): void {
+    this._destroyed$.next()
+    this._destroyed$.complete()
+  }
+
+  public getBlogPosts(): void {
+    this._blogService.getBlogPosts()
+    .pipe(
+      first(),
+    )
+    .subscribe((data: any )=> {
+      this._blogItems = data
       this._filteredBlogItems = JSON.parse(JSON.stringify(this._blogItems))
       this._cd.detectChanges()
     })
   }
 
-  public getCategories() {
-    this._categoryService.getCategories().subscribe((data: any) => {
-      if (data?.resultData.length === 0) {
+  public getCategories(): void {
+    this._categoryService.getCategories()
+    .pipe(
+      first(),
+    )
+    .subscribe((data: any) => {
+      if (data?.length === 0) {
         this.initializeCategories()
       } else {
-        this._blogCategories = data?.resultData
+        this._blogCategories = data
         this._cd.detectChanges()
       }
     })
   }
 
   public initializeCategories(): void {
-    forkJoin([
-      this.createCategory(this._testBlogCategories[0]),
-      this.createCategory(this._testBlogCategories[1]),
-      this.createCategory(this._testBlogCategories[2]),
+    combineLatest([
+      this._categoryService.createCategory(this._testBlogCategories[0]),
+      this._categoryService.createCategory(this._testBlogCategories[1]),
+      this._categoryService.createCategory(this._testBlogCategories[2]),
     ])
-    .subscribe((result: any ) => {
-      this._cd.detectChanges()
+    .subscribe(result => {
+      console.log(result)
+      this.getCategories()
     })
   }
 
-  public createCategory(category: BlogCategoryItem) {
-    this._categoryService.createCategory(category).subscribe(result => result)
-  }
-
-  public openModal(edit: boolean, blogItem: BlogItem | undefined = undefined) {
+  public openModal(edit: boolean, blogItem: BlogItem | undefined = undefined): void {
     const dialogConfig = new MatDialogConfig()
 
     dialogConfig.disableClose = true
@@ -135,11 +152,11 @@ export class BlogComponent implements OnInit{
     })
   }
 
-  public editBlogItem(item: BlogItem) {
+  public editBlogItem(item: BlogItem): void {
     this.openModal(true, item)
   }
 
-  public deleteBlogItem(item: BlogItem) {
+  public deleteBlogItem(item: BlogItem): void {
     this._blogService.deleteBlog(item).subscribe(data => {
       this.getBlogPosts()
     })

@@ -17,7 +17,6 @@ export class BlogCategoriesComponent {
     return this._blogCategories
   }
 
-
   private _blogCategories: BlogCategoryItem[]
 
   constructor() {}

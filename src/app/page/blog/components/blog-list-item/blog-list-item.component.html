@@ -5,21 +5,18 @@
     </span>
     <span class="blog-item__title-wrapper">
       <div class="blog-item__title">{{blogItem.title.charAt(0).toUpperCase() + blogItem.title.slice(1)}}</div>
+      <div class="blog-item__subtitle" *ngIf="updatedDate">Posted date {{updatedDate}} at {{updatedTime}} by Someone</div>
     </span>
     <span class="blog-item__action-wrapper">
       <button (click)="editBlogItemAction(blogItem)">Edit</button>
       <button (click)="deleteBlogItemAction(blogItem)">Delete</button>
     </span>
-
   </div>
-  <!-- <span>img</span>
-  <div>{{blogItem.title}}</div> -->
-
   <div class="blog-item__content">{{blogItem.text}}</div>
   <div class="blog-item__img-content">
     <span><img src="#"/></span>
     <span><img src="#"/></span>
     <span><img src="#"/></span>
   </div>
-  
+
 </div>

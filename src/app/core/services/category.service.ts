@@ -1,7 +1,7 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { catchError, tap } from "rxjs";
-import { BlogCategoryItem } from "../models";
+import { catchError, tap, Observable, map } from "rxjs";
+import { BlogCategoryItem, ResponseObjCategoryPost } from "../models";
 
 @Injectable()
 export class CategoryService {
@@ -9,15 +9,15 @@ export class CategoryService {
 
   constructor(private _httpClient: HttpClient) {}
 
-  public getCategories() {
-    return this._httpClient.get(this._baseUrl)
+  public getCategories(): Observable<BlogCategoryItem[]> {
+    return this._httpClient.get<ResponseObjCategoryPost>(this._baseUrl)
+      .pipe(
+        map((data) => data.resultData),
+      )
   }
 
-  public createCategory(category: BlogCategoryItem) {
-    return this._httpClient.post(this._baseUrl, category).pipe(
-      tap((data) => console.log(data)),
-      catchError((err) => err)
-    )
+  public createCategory(category: BlogCategoryItem): Observable<BlogCategoryItem> {
+    return this._httpClient.post(this._baseUrl, category) as Observable<BlogCategoryItem>
   }
 
   public updateCategory(category: BlogCategoryItem) {
